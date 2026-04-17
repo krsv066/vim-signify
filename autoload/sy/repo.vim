@@ -173,6 +173,11 @@ function! s:check_diff_git(exitval, diff) abort
   return a:exitval ? [0, []] : [1, a:diff]
 endfunction
 
+" s:check_diff_arc {{{1
+function! s:check_diff_arc(exitval, diff) abort
+  return a:exitval ? [0, []] : [1, a:diff]
+endfunction
+
 " s:check_diff_yadm {{{1
 function! s:check_diff_yadm(exitval, diff) abort
   return a:exitval ? [0, []] : [1, a:diff]
@@ -513,7 +518,7 @@ endfunction
 
 " s:get_vcs_path {{{1
 function! s:get_vcs_path(bufnr, vcs) abort
-  return (a:vcs =~# '\v(git|cvs|accurev|tfs|yadm)')
+  return (a:vcs =~# '\v(git|arc|cvs|accurev|tfs|yadm)')
         \ ? getbufvar(a:bufnr, 'sy').info.file
         \ : getbufvar(a:bufnr, 'sy').info.path
 endfunction
@@ -633,6 +638,7 @@ endfunction
 " Variables {{{1
 let s:default_vcs_cmds = {
       \ 'git':      'git diff --no-color --no-ext-diff -U0 -- %f',
+      \ 'arc':      'arc diff --git -U0 -- %f',
       \ 'yadm':     'yadm diff --no-color --no-ext-diff -U0 -- %f',
       \ 'hg':       'hg --config alias.diff=diff diff --color=never --nodates -U0 -- %f',
       \ 'svn':      'svn diff --diff-cmd %d -x -U0 -- %f',
@@ -649,6 +655,7 @@ let s:default_vcs_cmds = {
 
 let s:default_vcs_cmds_diffmode = {
       \ 'git':      'git show HEAD:./%f',
+      \ 'arc':      'arc show --git HEAD:./%f',
       \ 'yadm':     'yadm show HEAD:./%f',
       \ 'hg':       'hg cat %f',
       \ 'svn':      'svn cat %f',
